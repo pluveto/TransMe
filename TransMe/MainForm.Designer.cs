@@ -35,13 +35,16 @@ namespace TransMe
             // 
             // textClipboard
             // 
+            this.textClipboard.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textClipboard.Location = new System.Drawing.Point(12, 12);
+            this.textClipboard.Multiline = true;
             this.textClipboard.Name = "textClipboard";
             this.textClipboard.Size = new System.Drawing.Size(157, 23);
             this.textClipboard.TabIndex = 0;
             // 
             // textBoxTranslation
             // 
+            this.textBoxTranslation.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxTranslation.Location = new System.Drawing.Point(12, 41);
             this.textBoxTranslation.Multiline = true;
             this.textBoxTranslation.Name = "textBoxTranslation";
@@ -52,6 +55,7 @@ namespace TransMe
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(190, 111);
             this.Controls.Add(this.textBoxTranslation);
             this.Controls.Add(this.textClipboard);

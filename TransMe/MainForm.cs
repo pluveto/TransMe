@@ -48,7 +48,6 @@ namespace TransMe
 
         private void Hook_MouseDown(object sender, MouseHookEventArgs e)
         {
-            Debug.WriteLine("Gkh_KeyboardPressed " + e.Button);
 
             if (e.Button == button)
             {
@@ -71,6 +70,7 @@ namespace TransMe
             ActivateWindow.MoveTo(this, MouseUtil.GetCursorPosition());
             var input = Clipboard.GetText(); ;
             this.textClipboard.Text = input;
+            this.textBoxTranslation.Text = "Translating...";
             this.BeginInvoke(new Action(async () =>
             {
                 var translation = await new Translator().Translate(input);
