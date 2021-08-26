@@ -76,11 +76,14 @@ namespace TransMe
             var input = Clipboard.GetText(); ;
             this.textClipboard.Text = input;
             this.textBoxTranslation.Text = "Translating...";
-            this.BeginInvoke(new Action(async () =>
+            new System.Threading.Thread(async () =>
             {
                 var translation = await new Translator().Translate(input);
-                this.textBoxTranslation.Text = translation;
-            }));
+                this.BeginInvoke((Action)(() =>
+                {
+                    this.textBoxTranslation.Text = translation;
+                }));
+            }).Start();
         }
         #endregion
         #region Others
