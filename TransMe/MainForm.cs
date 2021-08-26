@@ -22,7 +22,7 @@ namespace TransMe
         private void MainForm_Load(object sender, EventArgs e)
         {
             // todo: config
-            var interval = 1000;
+            var interval = 500;
             var key = Keys.XButton2;
 
             var hook = new MouseHook();
