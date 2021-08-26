@@ -10,7 +10,7 @@
 
 ## 下载
 
-去看 Release
+去看 [Release](https://github.com/pluveto/TransMe/releases)
 
 ## 配置
 
