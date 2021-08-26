@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -18,12 +19,14 @@ namespace TransMe
         {
             InitializeComponent();
         }
-
+        // 触发的鼠标按键
+        MouseButtons button;
         private void MainForm_Load(object sender, EventArgs e)
         {
-            // todo: config
-            var interval = 500;
-            var key = Keys.XButton2;
+            this.Text = "TransMe";
+            
+            var delay = Settings.GetOrDefaultInt("delay",500);
+            button = ButtonStrToButton(Settings.GetOrDefault("button", "Middle"));
 
             var hook = new MouseHook();
             
@@ -31,9 +34,29 @@ namespace TransMe
             hook.MouseUp += Hook_MouseUp; ;
             hook.Install();
             timer = new Timer();            
-            timer.Interval = interval;
+            timer.Interval = delay;
             timer.Tick += Timer_Tick;
 
+        }
+
+        private MouseButtons ButtonStrToButton(string v)
+        {
+            switch (v.ToLower())
+            {
+                case "middle":
+                case "mid":
+                    return MouseButtons.Middle;
+                case "left":
+                    return MouseButtons.Left;
+                case "right":
+                    return MouseButtons.Right;
+                case "forward":
+                    return MouseButtons.XButton1;
+                case "back":
+                    return MouseButtons.XButton2;
+                default:
+                    return MouseButtons.Right;
+            }
         }
 
         private void Hook_MouseUp(object sender, MouseHookEventArgs e)
@@ -45,7 +68,7 @@ namespace TransMe
         {
             Debug.WriteLine("Gkh_KeyboardPressed " + e.Button);
 
-            if (e.Button == MouseButtons.XButton2)
+            if (e.Button == button)
             {
                 timer.Start();
             }
