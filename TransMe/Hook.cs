@@ -155,13 +155,13 @@ namespace TransMe
         /// </summary>
         public void Install()
         {
-            var handle = GetModuleHandle("user32");
+            //var handle = GetModuleHandle(Process.GetCurrentProcess().MainModule.ModuleName);
+            var handle = LoadLibrary("user32.dll");
             hHook = SetWindowsHookEx(
                      hookType,
                      hookProc,
-                     Marshal.GetHINSTANCE(
-                         Assembly.GetExecutingAssembly().GetModules()[0]),
-                     0);
+                     handle,//Marshal.GetHINSTANCE( Assembly.GetExecutingAssembly().GetModules()[0])
+                     0); //Thread.CurrentThread.ManagedThreadId
             //If SetWindowsHookEx fails.
             if (hHook == 0)
             {
@@ -170,7 +170,9 @@ namespace TransMe
                 //do cleanup
 
                 //Initializes and throws a new instance of the Win32Exception class with the specified error. 
+
                 throw new Win32Exception(errorCode);
+
             }
             Debug.WriteLine("Install");
         }
@@ -207,8 +209,11 @@ namespace TransMe
         #region Win32 API imports
         //This is the Import for the SetWindowsHookEx function.
         //Use this function to install a thread-specific hook.
-        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern int SetWindowsHookEx(HookType idHook, HookProc lpfn, IntPtr hInstance, int threadId);
+
+        [DllImport("kernel32", SetLastError = true)]
+        static extern IntPtr LoadLibrary(string lpFileName);
 
         //This is the Import for the UnhookWindowsHookEx function.
         //Call this function to uninstall the hook.
@@ -267,7 +272,7 @@ namespace TransMe
         /// Client code must call Install in order to begin receiving MouseEvents
         /// </summary>
         public MouseHook()
-            : base(HookType.WH_MOUSE)
+            : base(HookType.WH_MOUSE_LL)
         {
             // we provide our own callback function
             hookProc = new HookProc(this.MouseProc);
@@ -562,7 +567,7 @@ namespace TransMe
                 short state = GetKeyState(KeyCode);
                 //Debug.WriteLine("state " + KeyCode + "," + (((ushort)state )));
                 //return ((state & 0x10000) == 0x10000);
-                return (state >> 7 )!= 0;
+                return (state >> 7) != 0;
             }
 
             [DllImport("user32.dll")]

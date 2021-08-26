@@ -21,6 +21,7 @@ namespace TransMe
         }
         // 触发的鼠标按键
         MouseButtons button;
+        MouseHook hook;
         private void MainForm_Load(object sender, EventArgs e)
         {
             this.Text = "TransMe";
@@ -28,7 +29,7 @@ namespace TransMe
             var delay = Settings.GetOrDefaultInt("delay",500);
             button = ButtonStrToButton(Settings.GetOrDefault("button", "Middle"));
 
-            var hook = new MouseHook();
+            hook = new MouseHook();
             
             hook.MouseDown += Hook_MouseDown;
             hook.MouseUp += Hook_MouseUp; ;
@@ -43,12 +44,16 @@ namespace TransMe
         #region Event Handlers
         private void Hook_MouseUp(object sender, MouseHookEventArgs e)
         {
-            timer.Stop();
+            Debug.WriteLine(e.ToString() + " up");
+            if (timer.Enabled)
+            {
+                timer.Stop();
+            }
         }
 
         private void Hook_MouseDown(object sender, MouseHookEventArgs e)
         {
-
+            Debug.WriteLine(e.ToString() + " down");
             if (e.Button == button && !timer.Enabled)
             {
                 timer.Start();
@@ -100,5 +105,10 @@ namespace TransMe
             }
         }
         #endregion
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            hook.Uninstall();
+        }
     }
 }
