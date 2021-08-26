@@ -22,6 +22,7 @@ namespace TransMe
         // 触发的鼠标按键
         MouseButtons button;
         MouseHook hook;
+        bool CombineBeforeTranslating = false;
         private void MainForm_Load(object sender, EventArgs e)
         {
             this.Text = "TransMe";
@@ -74,6 +75,10 @@ namespace TransMe
             ActivateWindow.SetActivate(this.Handle);
             ActivateWindow.MoveTo(this, MouseUtil.GetCursorPosition());
             var input = Clipboard.GetText(); ;
+            if (CombineBeforeTranslating)
+            {
+                input = input.Replace("\r", "").Replace("\n", " ");
+            }
             this.textClipboard.Text = input;
             this.textBoxTranslation.Text = "Translating...";
             new System.Threading.Thread(async () =>
@@ -112,6 +117,11 @@ namespace TransMe
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             hook.Uninstall();
+        }
+
+        private void menuItemJoinLines_CheckStateChanged(object sender, EventArgs e)
+        {
+            CombineBeforeTranslating = (sender as ToolStripMenuItem).Checked;
         }
     }
 }
