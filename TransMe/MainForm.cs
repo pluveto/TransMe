@@ -63,6 +63,7 @@ namespace TransMe
         public void ShowApp()
         {
             ActivateWindow.SetActivate(this.Handle);
+            ActivateWindow.MoveTo(this, MouseUtil.GetCursorPosition());
             var input = Clipboard.GetText(); ;
             this.textClipboard.Text = input;
             this.textBoxTranslation.Text = new Translator().Translate(input);

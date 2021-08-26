@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TransMe
 {
@@ -16,6 +18,12 @@ namespace TransMe
             SetFocus(h);
             System.Diagnostics.Debug.WriteLine(h);
         }
+        internal static void MoveTo(Form w, Point p)
+        {
+            MoveWindow(w.Handle, p.X, p.Y, w.Width, w.Height, false);
+        }
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
         public enum ShowWindowCommands
         {
             SW_HIDE = 0,
