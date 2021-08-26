@@ -49,7 +49,7 @@ namespace TransMe
         private void Hook_MouseDown(object sender, MouseHookEventArgs e)
         {
 
-            if (e.Button == button)
+            if (e.Button == button && !timer.Enabled)
             {
                 timer.Start();
             }
