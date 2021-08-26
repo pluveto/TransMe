@@ -10,7 +10,7 @@ namespace TransMe
 {
     class Translator
     {
-        public String Translate(String Word)
+        public async Task<string> Translate(String Word)
         {
             var toLanguage = "zh";
             var fromLanguage = "en";
@@ -19,7 +19,7 @@ namespace TransMe
             {
                 Encoding = System.Text.Encoding.UTF8
             };
-            var result = webClient.DownloadString(url);
+            var result = await webClient.DownloadStringTaskAsync(url);
             try
             {
                 result = result.Substring(4, result.IndexOf("\"", 4, StringComparison.Ordinal) - 4);

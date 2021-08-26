@@ -39,26 +39,8 @@ namespace TransMe
 
         }
 
-        private MouseButtons ButtonStrToButton(string v)
-        {
-            switch (v.ToLower())
-            {
-                case "middle":
-                case "mid":
-                    return MouseButtons.Middle;
-                case "left":
-                    return MouseButtons.Left;
-                case "right":
-                    return MouseButtons.Right;
-                case "forward":
-                    return MouseButtons.XButton1;
-                case "back":
-                    return MouseButtons.XButton2;
-                default:
-                    return MouseButtons.Right;
-            }
-        }
 
+        #region Event Handlers
         private void Hook_MouseUp(object sender, MouseHookEventArgs e)
         {
             timer.Stop();
@@ -80,20 +62,43 @@ namespace TransMe
             (sender as Timer).Stop();
             SendInput.CtrlC();
             ShowApp();
-
-
         }
+        #endregion
+        #region Commands
         public void ShowApp()
         {
             ActivateWindow.SetActivate(this.Handle);
             ActivateWindow.MoveTo(this, MouseUtil.GetCursorPosition());
             var input = Clipboard.GetText(); ;
             this.textClipboard.Text = input;
-            this.textBoxTranslation.Text = new Translator().Translate(input);
+            this.BeginInvoke(new Action(async () =>
+            {
+                var translation = await new Translator().Translate(input);
+                this.textBoxTranslation.Text = translation;
+            }));
         }
-        private void MainForm_MouseDown(object sender, MouseEventArgs e)
-        {
+        #endregion
+        #region Others
 
+        private MouseButtons ButtonStrToButton(string v)
+        {
+            switch (v.ToLower())
+            {
+                case "middle":
+                case "mid":
+                    return MouseButtons.Middle;
+                case "left":
+                    return MouseButtons.Left;
+                case "right":
+                    return MouseButtons.Right;
+                case "forward":
+                    return MouseButtons.XButton1;
+                case "back":
+                    return MouseButtons.XButton2;
+                default:
+                    return MouseButtons.Right;
+            }
         }
+        #endregion
     }
 }
