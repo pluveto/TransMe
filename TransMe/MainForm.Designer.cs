@@ -32,10 +32,10 @@ namespace TransMe
             this.components = new System.ComponentModel.Container();
             this.textClipboard = new System.Windows.Forms.TextBox();
             this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuItemTranslate = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemJoinLines = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxTranslation = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.menuItemTranslate = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -45,11 +45,14 @@ namespace TransMe
             this.textClipboard.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textClipboard.ContextMenuStrip = this.contextMenu;
             this.textClipboard.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textClipboard.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textClipboard.Location = new System.Drawing.Point(3, 3);
             this.textClipboard.Multiline = true;
             this.textClipboard.Name = "textClipboard";
             this.textClipboard.Size = new System.Drawing.Size(184, 92);
             this.textClipboard.TabIndex = 0;
+            this.textClipboard.MouseLeave += new System.EventHandler(this.textClipboard_MouseLeave);
+            this.textClipboard.MouseMove += new System.Windows.Forms.MouseEventHandler(this.textClipboard_MouseMove);
             // 
             // contextMenu
             // 
@@ -58,6 +61,13 @@ namespace TransMe
             this.menuItemJoinLines});
             this.contextMenu.Name = "contextMenu";
             this.contextMenu.Size = new System.Drawing.Size(149, 48);
+            // 
+            // menuItemTranslate
+            // 
+            this.menuItemTranslate.Name = "menuItemTranslate";
+            this.menuItemTranslate.Size = new System.Drawing.Size(148, 22);
+            this.menuItemTranslate.Text = "翻译";
+            this.menuItemTranslate.Click += new System.EventHandler(this.menuItemTranslate_Click);
             // 
             // menuItemJoinLines
             // 
@@ -71,11 +81,14 @@ namespace TransMe
             // 
             this.textBoxTranslation.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxTranslation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxTranslation.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textBoxTranslation.Location = new System.Drawing.Point(3, 101);
             this.textBoxTranslation.Multiline = true;
             this.textBoxTranslation.Name = "textBoxTranslation";
             this.textBoxTranslation.Size = new System.Drawing.Size(184, 92);
             this.textBoxTranslation.TabIndex = 1;
+            this.textBoxTranslation.MouseLeave += new System.EventHandler(this.textClipboard_MouseLeave);
+            this.textBoxTranslation.MouseMove += new System.Windows.Forms.MouseEventHandler(this.textClipboard_MouseMove);
             // 
             // tableLayoutPanel1
             // 
@@ -91,13 +104,6 @@ namespace TransMe
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(190, 196);
             this.tableLayoutPanel1.TabIndex = 2;
-            // 
-            // menuItemTranslate
-            // 
-            this.menuItemTranslate.Name = "menuItemTranslate";
-            this.menuItemTranslate.Size = new System.Drawing.Size(148, 22);
-            this.menuItemTranslate.Text = "翻译";
-            this.menuItemTranslate.Click += new System.EventHandler(this.menuItemTranslate_Click);
             // 
             // MainForm
             // 

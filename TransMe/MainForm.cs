@@ -135,5 +135,15 @@ namespace TransMe
             input = this.textClipboard.Text;
             Translate();
         }
+
+        private void textClipboard_MouseMove(object sender, MouseEventArgs e)
+        {
+            (sender as TextBox).BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void textClipboard_MouseLeave(object sender, EventArgs e)
+        {
+            (sender as TextBox).BorderStyle = BorderStyle.None;
+        }
     }
 }
