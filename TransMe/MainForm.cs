@@ -31,11 +31,11 @@ namespace TransMe
             var delay = Settings.GetOrDefaultInt("delay",500);
             button = ButtonStrToButton(Settings.GetOrDefault("button", "Middle"));
 
-            hook = new MouseHook();
-            
+            hook = new MouseHook();            
             hook.MouseDown += Hook_MouseDown;
             hook.MouseUp += Hook_MouseUp; ;
             hook.Install();
+
             timer = new Timer();            
             timer.Interval = delay;
             timer.Tick += Timer_Tick;
@@ -66,6 +66,18 @@ namespace TransMe
         {
             Debug.WriteLine("Tick");
             (sender as Timer).Stop();
+
+            var w = ActivateWindow.GetForegroundWindow();
+            if(w == this.Handle)
+            {
+                if(this.textClipboard.SelectionLength > 0)
+                {
+                    input = this.textClipboard.SelectedText;
+                }
+                Translate();
+                return;
+            }
+            
             SendInput.CtrlC();
             ShowApp();
         }
