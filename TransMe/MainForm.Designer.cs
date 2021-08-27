@@ -35,6 +35,7 @@ namespace TransMe
             this.menuItemJoinLines = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxTranslation = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.menuItemTranslate = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -53,9 +54,10 @@ namespace TransMe
             // contextMenu
             // 
             this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItemTranslate,
             this.menuItemJoinLines});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(149, 26);
+            this.contextMenu.Size = new System.Drawing.Size(149, 48);
             // 
             // menuItemJoinLines
             // 
@@ -90,6 +92,13 @@ namespace TransMe
             this.tableLayoutPanel1.Size = new System.Drawing.Size(190, 196);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
+            // menuItemTranslate
+            // 
+            this.menuItemTranslate.Name = "menuItemTranslate";
+            this.menuItemTranslate.Size = new System.Drawing.Size(148, 22);
+            this.menuItemTranslate.Text = "翻译";
+            this.menuItemTranslate.Click += new System.EventHandler(this.menuItemTranslate_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -115,6 +124,7 @@ namespace TransMe
         private System.Windows.Forms.ContextMenuStrip contextMenu;
         private System.Windows.Forms.ToolStripMenuItem menuItemJoinLines;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.ToolStripMenuItem menuItemTranslate;
     }
 }
 
