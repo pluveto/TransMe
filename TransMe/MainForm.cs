@@ -27,16 +27,16 @@ namespace TransMe
         private void MainForm_Load(object sender, EventArgs e)
         {
             this.Text = "TransMe";
-            
-            var delay = Settings.GetOrDefaultInt("delay",500);
+
+            var delay = Settings.GetOrDefaultInt("delay", 500);
             button = ButtonStrToButton(Settings.GetOrDefault("button", "Middle"));
 
-            hook = new MouseHook();            
+            hook = new MouseHook();
             hook.MouseDown += Hook_MouseDown;
             hook.MouseUp += Hook_MouseUp; ;
             hook.Install();
 
-            timer = new Timer();            
+            timer = new Timer();
             timer.Interval = delay;
             timer.Tick += Timer_Tick;
 
@@ -68,16 +68,16 @@ namespace TransMe
             (sender as Timer).Stop();
 
             var w = ActivateWindow.GetForegroundWindow();
-            if(w == this.Handle)
+            if (w == this.Handle)
             {
-                if(this.textClipboard.SelectionLength > 0)
+                if (this.textClipboard.SelectionLength > 0)
                 {
                     input = this.textClipboard.SelectedText;
                 }
                 Translate();
                 return;
             }
-            
+
             SendInput.CtrlC();
             ShowApp();
         }
@@ -87,7 +87,7 @@ namespace TransMe
         {
             ActivateWindow.SetActivate(this.Handle);
             ActivateWindow.MoveTo(this, MouseUtil.GetCursorPosition());
-            input = Clipboard.GetText();            
+            input = Clipboard.GetText();
             Translate();
         }
         public void Translate()
@@ -147,15 +147,37 @@ namespace TransMe
             input = this.textClipboard.Text;
             Translate();
         }
-
+        Point prevChange;
         private void textClipboard_MouseMove(object sender, MouseEventArgs e)
         {
-            (sender as TextBox).BorderStyle = BorderStyle.FixedSingle;
-        }
+            var delta = e.Location.DistanceFrom(prevChange);
+            if (delta < 10)
+            {
+                return;
+            }
+            Debug.WriteLine("textClipboard_MouseMove " + delta);
 
+            prevChange = e.Location;
+            var box = (sender as TextBox);
+            if (box.BorderStyle != BorderStyle.FixedSingle)
+            {
+                box.BorderStyle = BorderStyle.FixedSingle;
+            }
+        }
         private void textClipboard_MouseLeave(object sender, EventArgs e)
         {
-            (sender as TextBox).BorderStyle = BorderStyle.None;
+            var box = (sender as TextBox);
+            var boxLoc = box.FindForm().PointToClient(box.Parent.PointToScreen(box.Location));
+            var mouseLoc = this.PointToClient(Cursor.Position); ;
+            // Debug.WriteLine("In rect " + boxLoc.ToString() + mouseLoc.ToString());
+            if (mouseLoc.InRect(boxLoc, box.Size))
+            {                
+                return;
+            }
+            if (box.BorderStyle != BorderStyle.None)
+            {
+                box.BorderStyle = BorderStyle.None;
+            }
         }
     }
 }
