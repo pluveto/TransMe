@@ -10,4 +10,28 @@
 
 ## 下载
 
-去看 Release
+去看 [Release](https://github.com/pluveto/TransMe/releases)
+
+## 配置
+
+可执行文件同目录下 `TransMe.dll.config` （没有可以新建）
+
+```xml
+<configuration>
+  <appSettings>
+    <add key="delay" value="500"/>
+    <add key="button" value="middle"/>
+  </appSettings>
+</configuration>
+```
+
++ `delay` 值为响应延迟。单位 ms.
++ `button` 为按键。支持：
+  + left
+  + middle
+  + right
+  + forward
+  + back
+
+
+由于基于 WIN32 API，所以暂时仅支持 Windows.
