@@ -16,11 +16,11 @@ namespace TransMe
             ShowWindow(h, (int)ShowWindowCommands.SW_SHOW);
             SetForegroundWindow(h);
             SetFocus(h);
-            System.Diagnostics.Debug.WriteLine(h);
+            // System.Diagnostics.Debug.WriteLine(h);
         }
         internal static void MoveTo(Form w, Point p)
         {
-            MoveWindow(w.Handle, p.X, p.Y, w.Width, w.Height, false);
+            MoveWindow(w.Handle, p.X, p.Y + 20, w.Width, w.Height, false);
         }
         [DllImport("user32.dll", SetLastError = true)]
         private static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
