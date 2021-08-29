@@ -13,18 +13,23 @@ namespace TransMe
 {
     class Translator
     {
-        public async Task<string> Translate(String Word)
+        public async Task<string> Translate(string word)
         {
+            if (null == word)
+            {
+                return "";
+            }
+
             var toLanguage = "zh";
             var fromLanguage = "en";
-            var url = $"https://translate.googleapis.com/translate_a/single?client=gtx&sl={fromLanguage}&tl={toLanguage}&dt=t&q={Uri.EscapeDataString(Word)}";
+            var url = $"https://translate.googleapis.com/translate_a/single?client=gtx&sl={fromLanguage}&tl={toLanguage}&dt=t&q={Uri.EscapeDataString(word)}";
             var webClient = new WebClient
             {
                 Encoding = System.Text.Encoding.UTF8
             };
             var result = await webClient.DownloadStringTaskAsync(url);
             try
-            {                              
+            {
                 return Parse(result);
             }
             catch
